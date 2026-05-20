@@ -138,6 +138,25 @@ Components can have different roles. A functional component owns behavior or res
 
 The execution domain matters more than the application category or packaging format. The deciding factor for a runtime component is whether the thing is operated, invoked, scheduled, scaled, monitored, restarted, or failure-isolated as a running unit.
 
+```mermaid
+flowchart TB
+  System["system"]
+  Functional["functional component<br/>owns behavior or responsibility"]
+  Runtime["runtime component<br/>has an execution lifecycle"]
+  Deployment["deployment component<br/>assembles and releases"]
+  Infrastructure["infrastructure component<br/>owns operational resources"]
+  Module["module<br/>code-aligned sub-unit"]
+
+  System --> Functional
+  System --> Runtime
+  System --> Deployment
+  System --> Infrastructure
+  Functional --> Module
+  Runtime -->|"wraps or invokes"| Functional
+  Deployment -->|"releases or provisions"| Runtime
+  Deployment -->|"provisions"| Infrastructure
+```
+
 The component kind answers what role the component plays. A checkout component may be functional. An API component may be runtime and wrap checkout behavior. A Helm chart may be a deployment component when it has stable ownership and release responsibility. A Terraform root stack for `prod` may be a deployment component for an environment. A Terraform module may be an infrastructure or deployment component when it has a stable responsibility, reusable interface, and ownership worth documenting.
 
 This keeps the model parallel without multiplying structural node types. An application repo may be organized mostly around functional and runtime components. A platform or infrastructure repo may be organized mostly around deployment and infrastructure components. RepoSCMA does not require one component kind to dominate all repositories; it requires named structural ownership that readers can follow.
