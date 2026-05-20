@@ -1,5 +1,5 @@
 title: RepoSCMA
-description: A repo-native documentation model for SCMA artifacts, structure graphs, and task-aware system evolution.
+description: A repo-native documentation model for consistent developer and AI-agent work across repositories.
 author: Jeremy Kassis and the RepoSCMA Working Group
 theme: minima
 markdown: kramdown

@@ -8,7 +8,9 @@ author: Jeremy Kassis and the RepoSCMA Working Group
 
 By Jeremy Kassis and the RepoSCMA Working Group.
 
-Software systems do not live only in code, diagrams, tickets, or meetings. They live in the relationship between those things. RepoSCMA is a documentation model for keeping that relationship inspectable in the one place every implementation already has: the repository.
+Software systems do not live only in code, diagrams, tickets, or meetings. They live in the relationship between those things. That relationship matters even more when work moves between developers, teams, and AI agents. Each handoff forces the next worker to answer the same questions: what is this repo, where are the boundaries, what changed, what is still true, and where should new knowledge go?
+
+RepoSCMA is a documentation model for keeping those answers inspectable in the one place every implementation already has: the repository. Its goal is not just better documentation. Its goal is consistent work: developers and agents should be able to enter different repos, find the same kinds of facts in predictable places, make changes with less rediscovery, and leave behind state that the next worker can trust.
 
 RepoSCMA builds on SCMA, but it is not the same thing.
 
@@ -22,6 +24,7 @@ RepoSCMA builds on SCMA, but it is not the same thing.
 - Core artifact roles are summary, context, components, interfaces, functions, states, data, qualities, decisions, and scenarios.
 - Artifacts can be prose, diagrams, tables, examples, interface snippets, or any useful combination of those forms.
 - RepoSCMA keeps task state near code so plans, implementation, and durable docs can be synchronized.
+- Predictable repo-local structure helps humans and AI agents produce consistent results across repos instead of rebuilding context from scratch.
 
 SCMA is the artifact model:
 
@@ -34,7 +37,7 @@ SCMA is the artifact model:
 - Modules
 - Artifacts
 
-RepoSCMA is the repo documentation model that applies those artifacts to concrete files, directories, and task records. It is intentionally opinionated about layout because agents and humans both need predictable places to look.
+RepoSCMA is the repo documentation model that applies those artifacts to concrete files, directories, and task records. It is intentionally opinionated about layout because agents and humans both need predictable places to look. A repeated layout becomes an operating contract: when every repo answers common questions in familiar locations, agents can plan with fewer assumptions and developers can review or continue their work without reverse-engineering the local documentation culture first.
 
 <script type="module">
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
@@ -225,7 +228,7 @@ RepoSCMA treats documentation as a synchronization problem.
 
 When code changes, tasks should reflect what was done. When tasks complete, durable findings should move into the right README, docs file, decision record, or runbook. When new work appears, it should be captured without polluting stable documentation.
 
-This gives both humans and agents a practical loop:
+This gives both humans and agents a practical loop that is repeatable across repositories:
 
 1. Identify the current task.
 2. Change the system.
@@ -249,6 +252,10 @@ flowchart LR
 
 RepoSCMA optimizes for repositories that need to be understood and changed repeatedly by mixed teams of humans and agents.
 
+For AI-assisted development, consistency is not cosmetic. Agents are sensitive to where context lives, how current task state is represented, and whether stable design knowledge is separated from temporary execution notes. Repositories with a shared documentation shape give agents fewer chances to invent missing structure and give developers clearer evidence for reviewing, correcting, or continuing agent work.
+
+For developers, the same structure reduces local folklore. A person moving from one repo to another should not need a new map for every codebase before they can make a safe change. RepoSCMA makes repository conventions explicit enough that implementation, review, onboarding, incident response, and follow-up work can reuse the same habits.
+
 It values:
 
 - predictable navigation
@@ -257,9 +264,10 @@ It values:
 - clear structural boundaries
 - task-aware evolution
 - durable design memory
+- repeatable AI and developer workflows across repos
 - practical synchronization over documentation theater
 
-It does not require every structural node to have every artifact. It does not require one file per artifact. It does not require diagrams before prose. It requires enough structure that the next maintainer can find the truth and update it without guessing.
+It does not require every structural node to have every artifact. It does not require one file per artifact. It does not require diagrams before prose. It requires enough structure that the next maintainer, human or AI, can find the truth and update it without guessing.
 
 ## The Manifesto
 
