@@ -19,18 +19,22 @@ landscape: Retail Commerce
 `- federation: Regional Retail Network
    |- enterprise: Northstar Retail
    |  `- system: OrderHub
-   |     |- container: web-app
-   |     |- container: api
-   |     |- container: worker
-   |     |- component: checkout
+   |     |- component: web-app (runtime)
+   |     |- component: api (runtime)
+   |     |- component: worker (runtime)
+   |     |- component: orderhub-helm (deployment)
+   |     |- component: prod-terraform (deployment)
+   |     |- component: checkout (functional)
    |     |  `- module: pricing
    |     |     `- module: promotions
-   |     `- component: fulfillment
+   |     `- component: fulfillment (functional)
    `- enterprise: ShipQuick Logistics
       `- system: Carrier Gateway
 ```
 
 The OrderHub repo is concerned mostly with the `system: OrderHub` subtree, but its context artifact still needs to mention the federation and partner enterprise because fulfillment depends on them.
+
+The `web-app`, `api`, and `worker` components are runtime components because they have execution lifecycles. They may run in different execution domains, such as a browser, operating system process, language interpreter, container runtime, or managed platform runner; the model cares that they are operated as running units. The `checkout` and `fulfillment` components are functional components because they own behavior that can be composed into runtime components.
 
 ## Example Artifacts
 
@@ -91,12 +95,12 @@ Artifacts may include diagrams when they help. A diagram is still an artifact at
 
 ```mermaid
 flowchart LR
-  Shopper[Shopper] --> Web[web-app container]
-  Web --> API[api container]
+  Shopper[Shopper] --> Web[web-app runtime component]
+  Web --> API[api runtime component]
   API --> Checkout[checkout component]
   Checkout --> Inventory[Inventory System]
   Checkout --> Payment[Payment Processor]
-  API --> Worker[worker container]
+  API --> Worker[worker runtime component]
   Worker --> Fulfillment[fulfillment component]
   Fulfillment --> Carrier[ShipQuick Carrier Gateway]
 ```
@@ -118,26 +122,29 @@ orderhub/
 |  |- TODO.md
 |  |- IDEAS.md
 |  `- DONE.md
-|- conts/
+|- comps/
 |  |- web-app/
 |  |  `- README.md
 |  |- api/
 |  |  `- README.md
-|  `- worker/
+|  |- worker/
+|  |  `- README.md
+|  |- checkout/
+|  |  |- README.md
+|  |  `- src/
+|  |     `- pricing/
+|  |        |- README.md
+|  |        `- promotions/
+|  |           `- README.md
+|  |- fulfillment/
+|  |  `- README.md
+|  |- orderhub-helm/
+|  |  `- README.md
+|  `- prod-terraform/
 |     `- README.md
-`- comps/
-   |- checkout/
-   |  |- README.md
-   |  `- src/
-   |     `- pricing/
-   |        |- README.md
-   |        `- promotions/
-   |           `- README.md
-   `- fulfillment/
-      `- README.md
 ```
 
-The root README would carry the system summary and high-level navigation. Root `docs/` would hold system-level spillover. Container READMEs would explain runtime units. Component and module READMEs would carry local responsibilities, interfaces, functions, and quality constraints.
+The root README would carry the system summary and high-level navigation. Root `docs/` would hold system-level spillover. Component READMEs would identify the component kind and carry local responsibilities, interfaces, functions, and quality constraints. Runtime components such as `api` would explain execution lifecycle and operational behavior. Deployment components such as `orderhub-helm` and `prod-terraform` would explain release packaging, environment assembly, infrastructure stacks, and reusable infrastructure modules.
 
 ## Task Example
 

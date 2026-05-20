@@ -18,7 +18,7 @@ RepoSCMA builds on SCMA, but it is not the same thing.
 
 - SCMA is the artifact model: it names the structural nodes and artifact types used to explain systems.
 - RepoSCMA is the repo documentation model: it maps SCMA artifacts into README, docs, tasks, and repo layout conventions.
-- The SCMA structure graph includes landscapes, federations, enterprises, systems, containers, components, and modules.
+- The SCMA structure graph includes landscapes, federations, enterprises, systems, components, and modules.
 - A landscape may contain federations and enterprises; a federation contains enterprises.
 - `context` is an artifact, not the top architecture node.
 - Core artifact roles are summary, context, components, interfaces, functions, states, data, qualities, decisions, and scenarios.
@@ -32,7 +32,6 @@ SCMA is the artifact model:
 - Federations
 - Enterprises
 - Systems
-- Containers
 - Components
 - Modules
 - Artifacts
@@ -71,7 +70,6 @@ flowchart LR
   Nodes --> Federation["federation"]
   Nodes --> Enterprise["enterprise"]
   Nodes --> System["system"]
-  Nodes --> Container["container"]
   Nodes --> Component["component"]
   Nodes --> Module["module"]
   Artifacts --> Summary["summary"]
@@ -97,7 +95,6 @@ Common structural nodes include:
 - federation
 - enterprise
 - system
-- container
 - component
 - module
 
@@ -107,7 +104,7 @@ A federation is a cooperating group of enterprises with shared concerns, interfa
 
 An enterprise is an organization or organizational unit that owns capabilities, systems, and operational responsibilities.
 
-For a single repository, the repo usually maps to a system. Containers may live under `conts/`, components under `comps/`, and modules under `comps/<component>/src/<module>/`. Modules may also contain child modules when the implementation is naturally nested.
+For a single repository, the repo usually maps to a system. Components may live under `comps/`, and modules under `comps/<component>/src/<module>/`. Modules may also contain child modules when the implementation is naturally nested.
 
 RepoSCMA does not pretend every system stops at the repo boundary. Artifacts can describe an enterprise, a federation, or any other surrounding structure when that context is necessary for understanding the repo.
 
@@ -118,8 +115,8 @@ flowchart TB
   EnterpriseA["Enterprise"]
   EnterpriseB["Enterprise"]
   SystemA["System"]
-  ContainerA["Container"]
   ComponentA["Component"]
+  ComponentB["Component"]
   ModuleA["Module"]
   ModuleB["Child module"]
 
@@ -127,11 +124,23 @@ flowchart TB
   Landscape --> EnterpriseB
   FederationA --> EnterpriseA
   EnterpriseA --> SystemA
-  SystemA --> ContainerA
   SystemA --> ComponentA
+  SystemA --> ComponentB
   ComponentA --> ModuleA
   ModuleA --> ModuleB
 ```
+
+## Component Kinds
+
+In SCMA, a component is a meaningful system unit. `Unit` is a useful plain-language synonym, but `component` is the canonical term.
+
+Components can have different roles. A functional component owns behavior or responsibility and may not be distinctly runnable. A runtime component has an execution lifecycle in an execution domain such as an operating system process, language interpreter, web browser, mobile OS, serverless function runner, WASM host, embedded processor, container runtime, hypervisor, workflow orchestrator, database engine, or plugin host. A deployment component assembles, configures, provisions, or releases other components and supporting resources into an environment.
+
+The execution domain matters more than the application category or packaging format. The deciding factor for a runtime component is whether the thing is operated, invoked, scheduled, scaled, monitored, restarted, or failure-isolated as a running unit.
+
+The component kind answers what role the component plays. A checkout component may be functional. An API component may be runtime and wrap checkout behavior. A Helm chart may be a deployment component when it has stable ownership and release responsibility. A Terraform root stack for `prod` may be a deployment component for an environment. A Terraform module may be an infrastructure or deployment component when it has a stable responsibility, reusable interface, and ownership worth documenting.
+
+This keeps the model parallel without multiplying structural node types. An application repo may be organized mostly around functional and runtime components. A platform or infrastructure repo may be organized mostly around deployment and infrastructure components. RepoSCMA does not require one component kind to dominate all repositories; it requires named structural ownership that readers can follow.
 
 ## Artifacts
 
@@ -148,7 +157,7 @@ Artifacts are durable explanations attached to structural nodes. The core artifa
 - decisions
 - scenarios
 
-A system can have a context. A container can have a state model. A module can have a data artifact. An enterprise can have qualities. A federation can have interfaces. The artifact type does not define the structural level.
+A system can have a context. A runtime component can have a state model. A deployment component can have interfaces and qualities. A module can have a data artifact. An enterprise can have qualities. A federation can have interfaces. The artifact type does not define the structural level.
 
 Artifacts may be prose, copy intended for readers or users, diagrams, tables, schemas, command examples, API examples, or mixed-format documents. The artifact role is more important than the rendering format.
 
@@ -175,7 +184,7 @@ SCMA stays deliberately small. It borrows from UML, OOAD, functional analysis, D
 
 Modeling notations are rendering choices. Artifact roles are documentation responsibilities.
 
-UML sequence diagrams, BPMN process models, ER diagrams, DDD aggregate sketches, C4 container views, activity diagrams, state machines, decision records, and runbooks can all be useful SCMA artifacts when they answer a real question for a real structural node. They should not become mandatory ceremony.
+UML sequence diagrams, BPMN process models, ER diagrams, DDD aggregate sketches, C4-style runtime views, activity diagrams, state machines, decision records, and runbooks can all be useful SCMA artifacts when they answer a real question for a real structural node. They should not become mandatory ceremony.
 
 ## Repo Layout Is Part of the Model
 
@@ -188,18 +197,14 @@ repo/
 |- README.md
 |- docs/
 |- tasks/
-|- conts/
-|  `- <container>/
+|- comps/
+|  `- <component>/
 |     |- README.md
-|     `- docs/
-`- comps/
-   `- <component>/
-      |- README.md
-      |- docs/
-      `- src/
-         `- <module>/
-            |- README.md
-            `- docs/
+|     |- docs/
+|     `- src/
+|        `- <module>/
+|           |- README.md
+|           `- docs/
 ```
 
 The rule is README first, colocated `docs/` second. A `README.md` is the entry point for a structural node. A sibling `docs/` directory holds spillover when the README becomes too large, too detailed, or too mixed.

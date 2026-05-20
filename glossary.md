@@ -18,7 +18,6 @@ SCMA names:
 - federations
 - enterprises
 - systems
-- containers
 - components
 - modules
 - artifacts
@@ -45,7 +44,6 @@ Common structural nodes:
 - federation
 - enterprise
 - system
-- container
 - component
 - module
 
@@ -65,13 +63,18 @@ An organization or organizational unit that owns capabilities, systems, people, 
 
 A coherent product, service, platform, application, or operational capability. In RepoSCMA, a single repository usually maps to a system.
 
-## Container
-
-A deployable or runtime unit in a system, such as a service, worker, database, web app, mobile app, CLI, or scheduled job.
-
 ## Component
 
-A meaningful owned subsystem or implementation unit. Components usually carry responsibilities, interfaces, and internal behavior worth documenting.
+A meaningful owned system unit. `Unit` is a useful plain-language synonym, but `component` is the canonical SCMA term.
+
+Components usually carry responsibilities, interfaces, and internal behavior worth documenting. Common component kinds include:
+
+- functional component: owns behavior or responsibility and may not be distinctly runnable
+- runtime component: has an execution lifecycle in an execution domain
+- deployment component: assembles, configures, provisions, or releases other components and supporting resources into an environment
+- infrastructure component: owns or defines operational resources or platform capability
+
+Runtime components run in execution domains such as operating system processes, language interpreters, web browsers, mobile operating systems, serverless function runners, WASM hosts, embedded processors, container runtimes, hypervisors, workflow orchestrators, database engines, or plugin hosts. The execution domain matters more than the application category or packaging format. The deciding factor is whether the thing is operated, invoked, scheduled, scaled, monitored, restarted, or failure-isolated as a running unit.
 
 ## Module
 
@@ -102,7 +105,7 @@ An artifact that briefly states what a structural node is, who or what it serves
 
 ## Components
 
-An artifact that explains meaningful internal parts of a structural node. The parts may be structural nodes themselves, such as containers, components, or modules.
+An artifact that explains meaningful internal parts of a structural node. The parts may be structural nodes themselves, such as components or modules.
 
 ## Interfaces
 
@@ -144,7 +147,7 @@ Scenarios may include use cases, user stories, sequence examples, threat scenari
 
 An artifact that explains why a structural node exists in its environment and what surrounds it.
 
-Context is not the top of the structure graph. A landscape, federation, enterprise, system, container, component, or module can each have context.
+Context is not the top of the structure graph. A landscape, federation, enterprise, system, component, or module can each have context.
 
 ## Task
 
