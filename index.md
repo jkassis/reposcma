@@ -32,6 +32,22 @@ SCMA is the artifact model:
 
 RepoSCMA is the repo documentation model that applies those artifacts to concrete files, directories, and task records. It is intentionally opinionated about layout because agents and humans both need predictable places to look.
 
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+  mermaid.initialize({ startOnLoad: false, theme: "default" });
+
+  document.addEventListener("DOMContentLoaded", async () => {
+    document.querySelectorAll("pre > code.language-mermaid").forEach((code) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "mermaid";
+      wrapper.textContent = code.textContent;
+      code.parentElement.replaceWith(wrapper);
+    });
+    await mermaid.run({ querySelector: ".mermaid" });
+  });
+</script>
+
 ## The Core Distinction
 
 SCMA defines the kinds of architectural artifacts worth maintaining. RepoSCMA defines where those artifacts live in a repository and how they stay synchronized with work.
@@ -39,6 +55,26 @@ SCMA defines the kinds of architectural artifacts worth maintaining. RepoSCMA de
 That distinction matters. A system can be described by many artifacts: summaries, contexts, interfaces, functions, qualities, decisions, runbooks, and task records. None of those artifacts are the system. They are lenses on the system.
 
 This is one reason RepoSCMA does not treat `context` as the top of the architecture. Unlike C4, where a context diagram often appears as the outermost architectural view, RepoSCMA starts from structural nodes in a structure graph. Context is an artifact that can describe any node.
+
+```mermaid
+flowchart LR
+  SCMA["SCMA artifact model"] --> Nodes["Structural nodes"]
+  SCMA --> Artifacts["Artifact roles"]
+  Nodes --> Landscape["landscape"]
+  Nodes --> Federation["federation"]
+  Nodes --> Enterprise["enterprise"]
+  Nodes --> System["system"]
+  Nodes --> Container["container"]
+  Nodes --> Component["component"]
+  Nodes --> Module["module"]
+  Artifacts --> Summary["summary"]
+  Artifacts --> Context["context"]
+  Artifacts --> Interfaces["interfaces"]
+  Artifacts --> Functions["functions"]
+  Artifacts --> Qualities["qualities"]
+  RepoSCMA["RepoSCMA documentation model"] --> Placement["README/docs/tasks placement"]
+  SCMA --> RepoSCMA
+```
 
 ## Structure Graphs
 
@@ -64,6 +100,28 @@ For a single repository, the repo usually maps to a system. Containers may live 
 
 RepoSCMA does not pretend every system stops at the repo boundary. Artifacts can describe an enterprise, a federation, or any other surrounding structure when that context is necessary for understanding the repo.
 
+```mermaid
+flowchart TB
+  Landscape["Landscape"]
+  FederationA["Federation"]
+  EnterpriseA["Enterprise"]
+  EnterpriseB["Enterprise"]
+  SystemA["System"]
+  ContainerA["Container"]
+  ComponentA["Component"]
+  ModuleA["Module"]
+  ModuleB["Child module"]
+
+  Landscape --> FederationA
+  Landscape --> EnterpriseB
+  FederationA --> EnterpriseA
+  EnterpriseA --> SystemA
+  SystemA --> ContainerA
+  SystemA --> ComponentA
+  ComponentA --> ModuleA
+  ModuleA --> ModuleB
+```
+
 ## Artifacts
 
 Artifacts are durable explanations attached to structural nodes. The core artifact types are:
@@ -80,6 +138,17 @@ A system can have a context. A container can have a context. A module can have a
 Artifacts may be prose, copy intended for readers or users, diagrams, tables, schemas, command examples, API examples, or mixed-format documents. The artifact role is more important than the rendering format.
 
 This keeps the model simple: first identify the structural node, then choose the artifacts that help readers reason about it.
+
+```mermaid
+flowchart LR
+  Node["Any structural node"] --> Summary["summary prose"]
+  Node --> Context["context narrative"]
+  Node --> Diagram["diagram"]
+  Node --> Interfaces["interface notes"]
+  Node --> Functions["behavior notes"]
+  Node --> Qualities["quality constraints"]
+  Node --> Examples["examples and snippets"]
+```
 
 ## Repo Layout Is Part of the Model
 
@@ -140,6 +209,17 @@ This gives both humans and agents a practical loop:
 4. Promote durable truth into artifacts.
 5. Move future work into ideas or backlog.
 6. Commit code, task state, and documentation together when appropriate.
+
+```mermaid
+flowchart LR
+  Task["Task"] --> Code["Code change"]
+  Code --> Tests["Tests and validation"]
+  Tests --> Notes["Task notes"]
+  Notes --> Docs["Durable artifacts"]
+  Docs --> Commit["Commit or merge request"]
+  Notes --> Ideas["Future work"]
+  Commit --> Task
+```
 
 ## What RepoSCMA Optimizes For
 
