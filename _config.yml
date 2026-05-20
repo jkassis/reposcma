@@ -2,3 +2,6 @@ title: RepoSCMA
 description: A repo-native documentation model for SCMA artifacts, structure graphs, and task-aware system evolution.
 theme: minima
 markdown: kramdown
+header_pages:
+  - glossary.md
+  - examples/orderhub.md

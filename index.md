@@ -9,8 +9,21 @@ Software systems do not live only in code, diagrams, tickets, or meetings. They 
 
 RepoSCMA builds on SCMA, but it is not the same thing.
 
+## TL;DR
+
+- SCMA is the artifact model: it names the structural nodes and artifact types used to explain systems.
+- RepoSCMA is the repo documentation model: it maps SCMA artifacts into README, docs, tasks, and repo layout conventions.
+- The SCMA structure graph includes landscapes, federations, enterprises, systems, containers, components, and modules.
+- A landscape may contain federations and enterprises; a federation contains enterprises.
+- `context` is an artifact, not the top architecture node.
+- Artifacts can be prose, diagrams, tables, examples, interface snippets, or any useful combination of those forms.
+- RepoSCMA keeps task state near code so plans, implementation, and durable docs can be synchronized.
+
 SCMA is the artifact model:
 
+- Landscapes
+- Federations
+- Enterprises
 - Systems
 - Containers
 - Components
@@ -33,12 +46,19 @@ A structure graph is the set of structural nodes that matter to a system and the
 
 Common structural nodes include:
 
-- federation or landscape
+- landscape
+- federation
 - enterprise
 - system
 - container
 - component
 - module
+
+A landscape is the broadest environment under consideration. It may include federations and independent enterprises.
+
+A federation is a cooperating group of enterprises with shared concerns, interfaces, governance, data exchange, or operating models.
+
+An enterprise is an organization or organizational unit that owns capabilities, systems, and operational responsibilities.
 
 For a single repository, the repo usually maps to a system. Containers may live under `conts/`, components under `comps/`, and modules under `comps/<component>/src/<module>/`. Modules may also contain child modules when the implementation is naturally nested.
 
@@ -56,6 +76,8 @@ Artifacts are durable explanations attached to structural nodes. The core artifa
 - qualities
 
 A system can have a context. A container can have a context. A module can have a context. An enterprise can have qualities. A federation can have interfaces. The artifact type does not define the structural level.
+
+Artifacts may be prose, copy intended for readers or users, diagrams, tables, schemas, command examples, API examples, or mixed-format documents. The artifact role is more important than the rendering format.
 
 This keeps the model simple: first identify the structural node, then choose the artifacts that help readers reason about it.
 
@@ -140,3 +162,8 @@ It does not require every structural node to have every artifact. It does not re
 Name the structure. Choose the artifacts. Put them where readers will look. Track the work near the code. Promote durable truth. Keep the repository honest.
 
 That is RepoSCMA.
+
+## Next
+
+- [Glossary](glossary.md)
+- [Example system](examples/orderhub.md)
