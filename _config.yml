@@ -1,5 +1,7 @@
 title: RepoSCMA
 description: A repo-native documentation model for SCMA artifacts, structure graphs, and task-aware system evolution.
+author:
+  name: Jeremy Kassis and the RepoSCMA Working Group
 theme: minima
 markdown: kramdown
 header_pages:

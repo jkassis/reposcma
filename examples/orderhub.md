@@ -1,9 +1,12 @@
 ---
 layout: page
 title: Example System
+author: Jeremy Kassis and the RepoSCMA Working Group
 ---
 
 # Example System: OrderHub
+
+By Jeremy Kassis and the RepoSCMA Working Group.
 
 OrderHub is a fictional order-management system used by retailers to receive web orders, reserve inventory, collect payment authorization, and coordinate fulfillment.
 
@@ -55,12 +58,32 @@ OrderHub operates inside the Regional Retail Network federation. Northstar Retai
 - create fulfillment requests
 - publish order state changes
 
+### System States
+
+Orders move through `submitted`, `priced`, `reserved`, `payment_authorized`, `fulfillment_requested`, `fulfilled`, and `cancelled` states. Retryable failures keep the order in its current business state while recording operational retry state.
+
+### System Data
+
+OrderHub owns order records, order state history, fulfillment request records, and idempotency keys. It references inventory, payment, and carrier identifiers owned by external systems.
+
 ### System Qualities
 
 - checkout submission should remain available during downstream carrier outages
 - order state transitions must be auditable
 - payment authorization and inventory reservation must be idempotent
 - fulfillment handoff should degrade to retryable queueing when ShipQuick is unavailable
+
+### System Decisions
+
+- Use asynchronous fulfillment handoff so carrier outages do not block checkout.
+- Keep payment authorization and inventory reservation as separate idempotent steps.
+
+### System Scenarios
+
+- shopper submits a valid order and receives confirmation
+- payment authorization succeeds after inventory reservation
+- ShipQuick is unavailable during fulfillment handoff
+- duplicate checkout submission is received after a client retry
 
 ## Diagram Artifact
 
@@ -88,6 +111,8 @@ orderhub/
 |- docs/
 |  |- CONTEXT.md
 |  |- INTERFACES.md
+|  |- STATES.md
+|  |- DATA.md
 |  `- QUALITIES.md
 |- tasks/
 |  |- TODO.md

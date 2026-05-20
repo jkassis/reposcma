@@ -1,9 +1,12 @@
 ---
 layout: page
 title: RepoSCMA Manifesto
+author: Jeremy Kassis and the RepoSCMA Working Group
 ---
 
 # RepoSCMA Manifesto
+
+By Jeremy Kassis and the RepoSCMA Working Group.
 
 Software systems do not live only in code, diagrams, tickets, or meetings. They live in the relationship between those things. RepoSCMA is a documentation model for keeping that relationship inspectable in the one place every implementation already has: the repository.
 
@@ -16,6 +19,7 @@ RepoSCMA builds on SCMA, but it is not the same thing.
 - The SCMA structure graph includes landscapes, federations, enterprises, systems, containers, components, and modules.
 - A landscape may contain federations and enterprises; a federation contains enterprises.
 - `context` is an artifact, not the top architecture node.
+- Core artifact roles are summary, context, components, interfaces, functions, states, data, qualities, decisions, and scenarios.
 - Artifacts can be prose, diagrams, tables, examples, interface snippets, or any useful combination of those forms.
 - RepoSCMA keeps task state near code so plans, implementation, and durable docs can be synchronized.
 
@@ -52,7 +56,7 @@ RepoSCMA is the repo documentation model that applies those artifacts to concret
 
 SCMA defines the kinds of architectural artifacts worth maintaining. RepoSCMA defines where those artifacts live in a repository and how they stay synchronized with work.
 
-That distinction matters. A system can be described by many artifacts: summaries, contexts, interfaces, functions, qualities, decisions, runbooks, and task records. None of those artifacts are the system. They are lenses on the system.
+That distinction matters. A system can be described by many artifacts: summaries, contexts, interfaces, functions, states, data, qualities, decisions, scenarios, runbooks, and task records. None of those artifacts are the system. They are lenses on the system.
 
 This is one reason RepoSCMA does not treat `context` as the top of the architecture. Unlike C4, where a context diagram often appears as the outermost architectural view, RepoSCMA starts from structural nodes in a structure graph. Context is an artifact that can describe any node.
 
@@ -71,7 +75,11 @@ flowchart LR
   Artifacts --> Context["context"]
   Artifacts --> Interfaces["interfaces"]
   Artifacts --> Functions["functions"]
+  Artifacts --> States["states"]
+  Artifacts --> Data["data"]
   Artifacts --> Qualities["qualities"]
+  Artifacts --> Decisions["decisions"]
+  Artifacts --> Scenarios["scenarios"]
   RepoSCMA["RepoSCMA documentation model"] --> Placement["README/docs/tasks placement"]
   SCMA --> RepoSCMA
 ```
@@ -131,9 +139,13 @@ Artifacts are durable explanations attached to structural nodes. The core artifa
 - components
 - interfaces
 - functions
+- states
+- data
 - qualities
+- decisions
+- scenarios
 
-A system can have a context. A container can have a context. A module can have a context. An enterprise can have qualities. A federation can have interfaces. The artifact type does not define the structural level.
+A system can have a context. A container can have a state model. A module can have a data artifact. An enterprise can have qualities. A federation can have interfaces. The artifact type does not define the structural level.
 
 Artifacts may be prose, copy intended for readers or users, diagrams, tables, schemas, command examples, API examples, or mixed-format documents. The artifact role is more important than the rendering format.
 
@@ -146,9 +158,21 @@ flowchart LR
   Node --> Diagram["diagram"]
   Node --> Interfaces["interface notes"]
   Node --> Functions["behavior notes"]
+  Node --> States["state model"]
+  Node --> Data["data model"]
   Node --> Qualities["quality constraints"]
+  Node --> Decisions["decision records"]
+  Node --> Scenarios["scenarios"]
   Node --> Examples["examples and snippets"]
 ```
+
+## Selective Borrowing
+
+SCMA stays deliberately small. It borrows from UML, OOAD, functional analysis, DDD, ER modeling, C4, BPMN, ADR practice, and operational runbooks, but it does not adopt any one modeling language as the organizing frame.
+
+Modeling notations are rendering choices. Artifact roles are documentation responsibilities.
+
+UML sequence diagrams, BPMN process models, ER diagrams, DDD aggregate sketches, C4 container views, activity diagrams, state machines, decision records, and runbooks can all be useful SCMA artifacts when they answer a real question for a real structural node. They should not become mandatory ceremony.
 
 ## Repo Layout Is Part of the Model
 

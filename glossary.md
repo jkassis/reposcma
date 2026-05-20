@@ -1,9 +1,12 @@
 ---
 layout: page
 title: Glossary
+author: Jeremy Kassis and the RepoSCMA Working Group
 ---
 
 # Glossary
+
+By Jeremy Kassis and the RepoSCMA Working Group.
 
 ## SCMA
 
@@ -87,7 +90,55 @@ Core artifact roles:
 - components
 - interfaces
 - functions
+- states
+- data
 - qualities
+- decisions
+- scenarios
+
+## Summary
+
+An artifact that briefly states what a structural node is, who or what it serves, and what success looks like.
+
+## Components
+
+An artifact that explains meaningful internal parts of a structural node. The parts may be structural nodes themselves, such as containers, components, or modules.
+
+## Interfaces
+
+An artifact that explains contracts at a boundary: APIs, events, schemas, files, commands, protocols, human procedures, or integration points.
+
+## Functions
+
+An artifact that explains behavior, responsibilities, workflows, transformations, or operational activities.
+
+## States
+
+An artifact that explains lifecycle, modes, state machines, transitions, invariants, and valid or invalid state changes.
+
+State artifacts borrow naturally from UML state machines, workflow modeling, protocol modeling, and operational mode analysis.
+
+## Data
+
+An artifact that explains domain concepts, entities, schemas, ownership, retention, lineage, consistency, or storage responsibilities.
+
+Data artifacts may borrow from ER modeling, OOAD class modeling, DDD aggregates, schema design, and data architecture.
+
+## Qualities
+
+An artifact that explains non-functional concerns such as correctness, latency, reliability, security, operability, cost, maintainability, usability, and compliance.
+
+## Decisions
+
+An artifact that records rationale, tradeoffs, accepted decisions, rejected alternatives, and consequences.
+
+Decision artifacts often map to ADRs, design notes, architecture reviews, or recorded operating decisions.
+
+## Scenarios
+
+An artifact that explains concrete cases used to reason about the structural node.
+
+Scenarios may include use cases, user stories, sequence examples, threat scenarios, failure scenarios, incident drills, or acceptance examples.
 
 ## Context
 
@@ -98,3 +149,9 @@ Context is not the top of the structure graph. A landscape, federation, enterpri
 ## Task
 
 A repo-local record of intended, active, or completed work. RepoSCMA treats task state as part of documentation because it synchronizes planning, code changes, artifacts, commits, and merge requests.
+
+## Modeling Notation
+
+A representation format used inside an artifact, such as UML, BPMN, ER diagrams, C4 views, sequence diagrams, state machines, tables, prose, or runbooks.
+
+In SCMA, notations are rendering choices. Artifact roles define documentation responsibilities.
